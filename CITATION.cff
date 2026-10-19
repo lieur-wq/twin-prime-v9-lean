@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "For this verification package, cite the v9 manuscript and refer to the corresponding repository commit."
+title: "Twin Prime Conjecture v9: Lean source and reproducibility audits"
+version: "v9-audit-2026-10-18"
+date-released: 2026-10-18
+type: software
+authors:
+  - family-names: Lieu
+    given-names: Richard
+    affiliation: "Department of Physics and Astronomy, University of Alabama in Huntsville"

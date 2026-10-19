@@ -1,0 +1,198 @@
+{
+  "source_v9_zip": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip",
+  "source_v9_zip_sha256": "4733d60006d96f55ee776195960554b74f72cdef0f735a9d4e15a74839380b5c",
+  "files": [
+    {
+      "path": "TPCV9/V9/FinalCertification.lean",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!supplement/lean/TP_Audit_Current_Final_Certification_2026-10-09.lean",
+      "sha256": "248f181d3ce01150336725fb24480692043bce36da050f88c7534d88efe05c4b",
+      "role": "v9 published source; loaded in default build"
+    },
+    {
+      "path": "TPCV9/V9/InteriorBoundary.lean",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!supplement/lean/TP_Audit_10j_Item13_InteriorBoundary_NoQ132_v2.lean",
+      "sha256": "d57a2be9c65ce15880759032c9ef6078447bb4c8ff702fbe6697bb261fa66a1e",
+      "role": "v9 published source; loaded in default build"
+    },
+    {
+      "path": "TPCV9/V9/SelbergBoundary.lean",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!supplement/lean/TP_Audit_11_Item14_SelbergTrustBoundary.lean",
+      "sha256": "e584c2a4b645f27d51d5534ed11818bc334e0f35cd95f002308f7f4cb08b28ae",
+      "role": "v9 published source; loaded in default build"
+    },
+    {
+      "path": "TPCV9/V9/ClassicalBVBoundary.lean",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!supplement/lean/TP_Audit_15_Item11_ClassicalBVTrustBoundary.lean",
+      "sha256": "86c3f4480155c2ed004070aedcf6aeeb548cbb98e5c7bef03d4e78cff04c33bd",
+      "role": "v9 published source; loaded in default build"
+    },
+    {
+      "path": "TPCV9/V9/SmoothedPNTBoundary.lean",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!supplement/lean/TP_Audit_16_Item12_SmoothedPNTTrustBoundary.lean",
+      "sha256": "28255435cf247e6ddf9d4dd59cbc0780496ddaa0a97c6d44178c93a10e0ff6d9",
+      "role": "v9 published source; loaded in default build"
+    },
+    {
+      "path": "manuscript/v9/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.tex",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!manuscript/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.tex",
+      "sha256": "8456e5d643f97cb3d15edf3a6c5dd066a3314a66e265d4c3dd0d902a0acc6ff4",
+      "role": "unmodified v9 manuscript source"
+    },
+    {
+      "path": "manuscript/v9/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.pdf",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!manuscript/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.pdf",
+      "sha256": "12cef52f447194488d12dd03b2214ca66293bdae9d136a94cd6abfb22c88da41",
+      "role": "unmodified v9 manuscript source"
+    },
+    {
+      "path": "manuscript/v9/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.bib",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!manuscript/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.bib",
+      "sha256": "7982a1a96fb4f8f0fff8bbe179e571c8d156e72061e4200932cbc1c78d030e76",
+      "role": "unmodified v9 manuscript source"
+    },
+    {
+      "path": "manuscript/v9/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.bbl",
+      "source": "TwinPrime_Current_Complete_Package_2026-10-11_v9_FLOWCHART_FIXED.zip!manuscript/A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture.bbl",
+      "sha256": "1dcbaccdf47fd408aebf3f1f1e39cea008dee4919f9443ce2d4bbc94133a5a05",
+      "role": "unmodified v9 manuscript source"
+    },
+    {
+      "path": "TPCV9/PostV9/FibreTrace.lean",
+      "source": "TP120_Actual_Fibre_Trace_Audit_v2.lean",
+      "sha256": "7c5e58ce58f324b6942706bc47dbcebe1b9dc78c8d54119d916429154d33152b",
+      "role": "TP120 updated audit; loaded in default build"
+    },
+    {
+      "path": "TPCV9/PostV9/GenuineSupport.lean",
+      "source": "TP120_Genuine_Twin_Support_Audit.lean",
+      "sha256": "20c4874672a68e227e4cb3a5e631a96a89cfb3d02c28f3cc104fd065f9213611",
+      "role": "TP120 support audit; loaded in default build"
+    },
+    {
+      "path": "TPCV9/PostV9/FiniteTrace.lean",
+      "source": "tpc128/TP128_V9_Section7_Finite_Trace_Audit.lean",
+      "sha256": "5fad25062f6af47bb1b13e36f43b76eda609ae784a007598bff211c4b64f233d",
+      "role": "TP128 finite trace; loaded in default build"
+    },
+    {
+      "path": "TPCV9/PostV9/WeilCRTConditions.lean",
+      "source": "tpc132/TP132_V9_Weil_CRT_Conditions.lean",
+      "sha256": "6d02d154d3ce157281c6c4c01ffdc2079e5aee9ec415470c1598c5324544522e",
+      "role": "TP132 CRT/Weil; loaded in default build"
+    },
+    {
+      "path": "TPCV9/PostV9/BVRangeConditions.lean",
+      "source": "tpc132/TP132_V9_BV_Range_Conditions.lean",
+      "sha256": "6a7f372dcd838dc5e83a11bea5e96170f2daf327e19899350da7f8c7e810c890",
+      "role": "TP132 exponent range; loaded in default build"
+    },
+    {
+      "path": "archive/post-v9/TP127_V9_Existing_Theorem_Audit.lean",
+      "source": "tpc127/TP127_V9_Existing_Theorem_Audit.lean",
+      "sha256": "ae7ef1d24f49ded795e3f028f7a18ec404b8ea5a22e133be0d83b3e82b1a1792",
+      "role": "reprints the v9 final certificate; preserved without importing to avoid redeclarations; excluded from default build"
+    },
+    {
+      "path": "archive/post-v9/TP127_V9_Unconditional_TPC_Gate.lean",
+      "source": "tpc127/TP127_V9_Unconditional_TPC_Gate.lean",
+      "sha256": "8e3a2e7ca8090a90b81e8db966f8e1bc9083e1825ed80ab9d227ef49eec02f2c",
+      "role": "WITHDRAWN as an adjudication test in Turn128; retained for historical transparency, never used to claim a result; excluded from default build"
+    },
+    {
+      "path": "archive/post-v9/TP120_Actual_Fibre_Trace_Audit.lean",
+      "source": "TP120_Actual_Fibre_Trace_Audit.lean",
+      "sha256": "1e3b9c9bb7a4719affb4fb8558de7d5a1479de90a3ee830916e8e179e37cfd60",
+      "role": "older duplicate; use v2 for default build; excluded from default build"
+    },
+    {
+      "path": "archive/historical/TP_Audit_10_TrustedTypeIICoefficients_v2.lean",
+      "source": "tpc120/archive/TP_Audit_10_TrustedTypeIICoefficients_v2.lean.bin",
+      "sha256": "259771aeba9f8be1803b35f0d021efc9ebd55151c3fed536374e0ad6d037edc3",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TP_Audit_10b_Turn418_HBInterior_Target.lean",
+      "source": "tpc120/archive/TP_Audit_10b_Turn418_HBInterior_Target.lean.bin",
+      "sha256": "508d58f0af0a1ae6ee56703350b2bf8f452056db9bec93626887aed1938047e3",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TP_Audit_10l_OpenedGram_AdmissibleCRTGate_v2.lean",
+      "source": "tpc120/archive/TP_Audit_10l_OpenedGram_AdmissibleCRTGate_v2.lean.bin",
+      "sha256": "1d3d6333c614536afc59567b2a74c02281f09cf9e18f138491c9558c26fa24e2",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TP_Audit_10m_ZModCRT_FactorizedTrace_v2.lean",
+      "source": "tpc120/archive/TP_Audit_10m_ZModCRT_FactorizedTrace_v2.lean.bin",
+      "sha256": "9d9ed97b3c062dee0320902129212c2dd739c57a19b393efa55b119b36b503ec",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TP_Audit_14_Item10_KloostermanWeilTrustBoundary_v2.lean",
+      "source": "tpc120/archive/TP_Audit_14_Item10_KloostermanWeilTrustBoundary_v2.lean.bin",
+      "sha256": "5886d8e5e0df08fb5eecc95fb3df2862b9e2893c290c2e45d8c460cdee79ad6e",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TP_Final_Integration_Capstone.lean",
+      "source": "tpc120/archive/TP_Final_Integration_Capstone.lean.bin",
+      "sha256": "890cfade3ef8928d125b8018b87407de7a1fd1ff01a602fbcda004edb0d4adae",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Concrete_Source_Matching_Audit_v2.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Concrete_Source_Matching_Audit_v2.lean.bin",
+      "sha256": "b58b38723dc903ba220761918d00b7593e648f6c2009b1c79f22f9b4c2a67c99",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Exact_External_Hypothesis_Audit_v2.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Exact_External_Hypothesis_Audit_v2.lean.bin",
+      "sha256": "38f0399f337c661a3e46a818011010549b31f48af9b8a471e16bb1a50bcd4ace",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Final_Final_Applicability_Audit.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Final_Final_Applicability_Audit.lean.bin",
+      "sha256": "15f4df9d3cf041ccd1644cede4fd88c437907809ea89e5264d17af74681b85f2",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Literal_Semantic_Closure_Audit.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Literal_Semantic_Closure_Audit.lean.bin",
+      "sha256": "9e780d569be1db7c9f146ab717a0381ee239a67c481e2ae00c57938389ed913f",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Semantic_Source_Certificate_Audit.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Semantic_Source_Certificate_Audit.lean.bin",
+      "sha256": "77460bb9b0763ebc08ddd14811ee10bd6da099121a5975fe1a47dcef8c48c022",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T391_397_Source_To_Interface_Audit.lean",
+      "source": "tpc120/archive/TwinPrime_T391_397_Source_To_Interface_Audit.lean.bin",
+      "sha256": "3fa687bd3b2baa9575e2c4adf087022a6596d76d451d30e3ff9535e1bb9bea5f",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T397_Analytic_Inputs_Gate.lean",
+      "source": "tpc120/archive/TwinPrime_T397_Analytic_Inputs_Gate.lean.bin",
+      "sha256": "4b1ebee44a9b884772e68aefe9d42b4f85ef02de15ba5e83c9f4044b03307136",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_T397_Variance_Source_Gate_v2.lean",
+      "source": "tpc120/archive/TwinPrime_T397_Variance_Source_Gate_v2.lean.bin",
+      "sha256": "e6d0d7ad71ae75a004edc59aee58a0b31dbe566569ba6a0e53ea734241dd0a24",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    },
+    {
+      "path": "archive/historical/TwinPrime_Turn418_Full397Audit.lean",
+      "source": "tpc120/archive/TwinPrime_Turn418_Full397Audit.lean.bin",
+      "sha256": "3bed5dda0499d4e5c3e1607d45e7036b4d96178a777ab28579c8b482b9862102",
+      "role": "prior audit recovered from earlier archives; not part of default build; unmodified"
+    }
+  ]
+}

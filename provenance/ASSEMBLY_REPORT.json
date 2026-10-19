@@ -1,0 +1,11 @@
+{
+  "v9_source_files": 5,
+  "post_v9_build_files": 5,
+  "archived_lean_files": 18,
+  "lean_files_total": 31,
+  "v9_zip_sha256": "4733d60006d96f55ee776195960554b74f72cdef0f735a9d4e15a74839380b5c",
+  "lein_environment": "Lean/Lake unavailable in container; project not yet compiled",
+  "pinned_toolchain": "v4.35.0",
+  "mathlib_pin": "v4.35.0",
+  "manifest": "must be generated with lake update and committed after first build"
+}

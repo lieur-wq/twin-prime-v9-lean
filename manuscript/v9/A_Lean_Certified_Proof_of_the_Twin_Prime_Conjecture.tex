@@ -1,0 +1,519 @@
+\documentclass{aomart}
+
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{array,tabularx}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\setlength{\emergencystretch}{2em}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\PP}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\F}{\mathbb F}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Kl}{\mathrm{Kl}}
+\newcommand{\e}{\mathrm e}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\HX}{H_X}
+\newcommand{\HY}{H_Y}
+\newcommand{\Athree}{A_3}
+\newcommand{\Etwo}{E}
+\newcommand{\Twin}{T}
+
+\title{A Lean-certified proof of the Twin Prime Conjecture}
+\author{Richard Lieu}
+\address{Department of Physics and Astronomy, University of Alabama in Huntsville, Huntsville, Alabama, USA}
+\date{}
+\copyrightnote{}
+
+\subject{primary}{msc2020}{11N05}
+\subject{secondary}{msc2020}{11N35}
+\keyword{twin primes}
+\keyword{sieve methods}
+\keyword{Kloosterman sums}
+\keyword{Bombieri--Vinogradov theorem}
+\keyword{Selberg sieve}
+\keyword{Lean}
+
+\begin{document}
+
+\begin{abstract}
+In this paper it is shown that the Twin Prime Conjecture follows from a quotient-weighted Chen--Richert crossing in which both sides can be kept on the same smoothed dyadic scale.  On the lower side, the exact-$P_3$ contribution is divided into three rigorously controlled regions: a factor-placement-good region, a special-factor region covered by Pascadi's distribution theorem, and a remaining triple-prime region covered by a Bombieri--Vinogradov induction principle followed by the ordinary upper sieve.  Directed fixed-point interval certificates for this $P_3$ term and for the elementary $P_4$ residual give
+\(A_3(X)\ge(0.7541+o(1))H_X\).
+On the upper side, the balanced-semiprime main coefficient is geometric, the completed second moment is estimated at its natural scale on the fixed interior, and a fixed-$q$ Selberg estimate treats the last $0.002$ of exponent range, giving
+\(E(X)\le(0.74938+o(1))H_X\).
+After the negligible prime-power contribution is removed, the resulting genuine twin-prime count is eventually positive.
+
+The accompanying Lean~4 development is a publication-boundary certification of the manuscript-specific deductions, normalisations and theorem applications.  Standard published analytic theorems and the explicitly archived numerical interval certificates remain mathematical inputs rather than being re-proved from foundations.  The decisive Lean certificates report only \texttt{[propext, Classical.choice, Quot.sound]}, with no \texttt{sorryAx} or project-specific axiom.  The term \emph{Lean-certified} is used in this precise interface sense and does not mean that Lean independently proves the external analytic source statements.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+The twin prime conjecture is the assertion that infinitely many primes $p$ have $p+2$ prime.  Equivalently, if $p_n$ denotes the $n$th prime and
+\[
+ H_1:=\liminf_{n\to\infty}(p_{n+1}-p_n),
+\]
+then the conjecture says $H_1=2$.  The best unconditional bounded-gap result prior to the present work was $H_1\le246$, reached after the breakthroughs of Zhang and Maynard and the subsequent Polymath8 optimisation \cite{Zhang2014,Maynard2015,Polymath2014}.  The problem addressed here is, however, considerably narrower than the history of the conjecture might suggest.  What remains is a residual coefficient gap in a quotient-weighted Chen--Richert reduction, and it will be shown that this gap can be closed without requiring a new distribution theorem at the final endpoint.
+
+To make the point of the argument as transparent as possible, we shall organise it as a comparison between a lower and an upper estimate on the same smoothed dyadic scale.  Let $\Psi$ be a fixed non-negative smooth compactly supported weight, and put
+\begin{equation}\label{eq:HX}
+ H_X:=2C_2\widehat\Psi(0)\frac{X}{(\log X)^2},
+\end{equation}
+where $C_2$ is the twin-prime singular constant in the normalisation used by the quotient reduction.  Three quantities then occur on the same scale,
+\[
+ A_3(X),\qquad E(X),\qquad W(X),
+\]
+where $A_3$ denotes the weighted lower contribution, $E$ the balanced-semiprime term to be removed, and $W$ the resulting von-Mangoldt-weighted remainder.  The combinatorial reduction is exact and gives
+\begin{equation}\label{eq:Widentity}
+ W(X)=A_3(X)-E(X).
+\end{equation}
+The definitions are those of the quotient-weighted reduction of \cite{RatliffReduction2026,RatliffRough2026}.  The only support subtlety needed later is that $W$ also sees the cases $p+2=\ell^k$ with $k\ge2$.  Accordingly write
+\begin{equation}\label{eq:primepowersplit}
+ W(X)=T(X)+R_{\rm pp}(X),
+\end{equation}
+where $T$ is restricted to genuine prime pairs $p,p+2$ and $R_{\rm pp}$ contains the higher-prime-power cases.  Since the smoothing has fixed compact support, the number of prime powers $\ell^k\ll X$ with $k\ge2$ is $O(X^{1/2}\log X)$, and therefore
+\begin{equation}\label{eq:primepowererror}
+ R_{\rm pp}(X)\ll_\Psi X^{1/2}\log X=o(H_X).
+\end{equation}
+Thus a positive lower bound of fixed positive proportion for $W(X)$ implies positivity of the genuine twin-prime count $T(X)$ for all sufficiently large dyadic $X$.
+
+Thus, for the purpose of completing the proof, the remaining quantitative task is reduced to the two numerical inequalities
+\begin{equation}\label{eq:goals}
+ A_3(X)\ge (0.7541+o(1))H_X,
+ \qquad
+ E(X)\le (0.74938+o(1))H_X.
+\end{equation}
+The certified gap is therefore
+\[
+ 0.7541-0.74938=0.00472>0.
+\]
+Although numerically small, this gap is appreciably larger than the final error budget.  The decisive strategic point is that the crossing is an \emph{integrated} inequality on one common scale; it does not require a single strongest estimate to hold uniformly on every critical cell.  A uniform-endpoint implementation of the quotient reduction is therefore stronger than necessary and runs into precisely the narrow ranges where the available distribution or completion estimates are most expensive.  The proof instead allocates analytic strength according to weighted mass.  On the lower side, the $P_3$ region is partitioned according to the theorem actually available on each cell, and the larger sieve cost is paid only on the remaining small region.  On the upper side, the natural coefficient is proved on the fixed interior $t\le0.498$, while the final strip is paid at the crude relative constant $8$.  Since the tail occupies only the mass fraction
+\[
+ \rho=\frac{\log(251/249)}{\log2}=0.0115416\ldots,
+\]
+the upper multiplier is only
+\[
+ (1-\rho)\cdot1+\rho\cdot8
+ =1+7\rho=1.0807913\ldots,
+\]
+which remains below the admissible threshold $0.7541/\log2=1.0879\ldots$.  This weighted-budget mechanism, rather than a new uniform endpoint theorem, is what closes the final gap.
+
+\subsection{Proof architecture}
+The proof may be viewed as a short chain of analytic inputs joined by explicit finite calculations.  The role of the Lean certification is not to replace this chain, but to make the joins explicit and difficult to misstate.  The argument is organised as follows.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=*]
+\item The quotient-weighted Chen--Richert reduction of \cite{RatliffReduction2026,RatliffRough2026} supplies the common scale $H_X$, the exact identity \eqref{eq:Widentity}, and the Type-I/Type-II geometry.
+\item On the lower side, Sections~\ref{sec:lower}--\ref{sec:p4} use the three-piece exact-$P_3$ treatment of the rough Chen reduction.  The factor-placement-good region is paid at relative constant $2$, the lower bad wedge is covered by Pascadi's special-factor theorem, and the remaining fixed-prime-factor branch uses Motohashi's Bombieri--Vinogradov induction principle followed by the ordinary dimension-one upper sieve.  Directed fixed-point interval certificates then supply the numerical $P_3$ and $P_4$ bounds used in the coefficient ledger.
+\item On the upper side, Sections~\ref{sec:upper}--\ref{sec:endpoint} compute the balanced-semiprime main constant, use the trace-first natural second-moment estimate on $\theta\le0.498$, and pay the final strip by a fixed-$q$ Selberg upper sieve.  The order of the second-moment inequalities is written explicitly to prevent the spurious extra factor $M$ which appears if completed $m$-fibres are estimated separately before the square is opened.
+\item The final section compares the conservative constants, subtracts the negligible prime-power term \eqref{eq:primepowererror}, and concludes that the genuine twin-prime count is positive.
+\end{enumerate}
+\subsection{Certification status}
+The word \emph{Lean-certified} is used here at an explicit publication boundary.  The Lean development checks manuscript-specific finite identities, normalisations, range deductions, coefficient arithmetic and the logical implications from declared analytic source statements to the final crossing.  Standard published analytic results, the quotient-weighted reduction and the directed fixed-point interval certificates remain mathematical inputs; they are not converted into theorems merely by being placed in a Lean structure.
+
+This distinction is important in reading the final capstone.  The capstone is parameterised by a source packet containing the eventual lower and upper analytic statements, the common scale, exact identity and support information.  Lean proves that a source packet satisfying those concrete interfaces yields the encoded Twin Prime Conjecture.  A clean \texttt{\#print axioms} report therefore certifies the formal deduction from the displayed inputs; it does not by itself establish those analytic inputs.  Their proofs are the mathematics of Sections~\ref{sec:lower}--\ref{sec:endpoint} and the cited literature.
+
+For the retained clean Lean-Web runs, the axiom reports have the form
+\begin{quote}
+\footnotesize\ttfamily
+[propext, Classical.choice, Quot.sound]
+\end{quote}
+with no \texttt{sorryAx}, no project-specific axiom and no unsolved goal.  The submission supplement contains only the Lean sources and verdicts that remain relevant to the proof as written; superseded exploratory and audit files are kept separately in the project archive and are not part of the submission dependency graph.
+
+\section{Historical background and milestones}
+
+The relevant history may be recalled briefly.  Brun proved in 1919 that the sum of the reciprocals of the twin primes converges \cite{Brun1919}, and Hardy and Littlewood later identified the prime-pair singular series and the expected asymptotic density \cite{HardyLittlewood1923}.  The analytic machinery used here is of the standard kind---primes in arithmetic progressions, large-sieve estimates, complete and incomplete exponential sums, and sieve theory---with the normalisations of \cite{IwaniecKowalski2004}.  The mean-value work of Bombieri and Davenport \cite{BombieriDavenport1966}, the Bombieri--Vinogradov theorem and the Bombieri--Friedlander--Iwaniec refinements \cite{BFI1986,BFI1987} are part of this background, while the finite-field square-root cancellation needed below is supplied by Weil's estimate \cite{Weil1948}.
+
+Chen's theorem is the decisive almost-prime predecessor of the present argument: infinitely often a prime differs by $2$ from an integer having at most two prime factors, in the equivalent shifted-prime formulation used by the reduction below \cite{Chen1973}.  The relevant sieve framework may be found in \cite{HalberstamRichert1974}.
+
+A different line of development concerns bounded gaps.  Goldston, Pintz and Y\i ld\i r\i m first showed that consecutive gaps are infinitely often arbitrarily small relative to the mean spacing \cite{GPY2009}; Zhang then obtained the first finite unconditional bound, initially $H_1\le7\times10^7$ \cite{Zhang2014}.  Maynard's multidimensional Selberg sieve reduced this to $600$ and at the same time treated intervals containing arbitrarily many primes \cite{Maynard2015}, after which the Polymath8 optimisation led to $H_1\le246$ \cite{Polymath2014}.
+
+Of more immediate relevance are the recent distribution results of Pascadi and Yang.  Pascadi obtains a $5/8-o(1)$ exponent for primes with triply-well-factorable weights, together with the associated incomplete Kloosterman estimates \cite{Pascadi2025}, whereas Yang proves a convolution-type Bombieri--Vinogradov theorem with well-factorable weights \cite{Yang2026}.  Ratliff's rough Chen lower bound and quotient-weighted Type-II reduction then isolate the balanced $P_3$ and balanced-semiprime pieces used here \cite{RatliffReduction2026,RatliffRough2026}.  We shall begin from that reduction.
+
+\section{The quotient-weighted crossing criterion}
+
+Before entering the estimates it is useful to separate the elementary crossing mechanism from the analytic work required to reach it.  We employ exponent coordinates; thus, for prime factors $p_1,p_2$ on a dyadic scale $y$, write
+\[
+ p_1\asymp y^u,\qquad p_2\asymp y^v,\qquad s=u+v.
+\]
+Both the exact-$P_3$ lower calculation and the balanced-semiprime upper calculation carry the same scale $H_X$ and the same twin singular series.  It follows that the reduction may be summarised in the following simple statement.
+
+\begin{proposition}[Crossing criterion]\label{prop:crossing}
+Assume the quotient-weighted reduction and its standard Type-I decompositions.  If, for all sufficiently large dyadic $X$,
+\[
+ A_3(X)\ge(c_A+o(1))H_X,
+ \qquad
+ E(X)\le(c_E+o(1))H_X,
+\]
+with $c_A>c_E$, then the twin prime conjecture holds.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:Widentity},
+\[
+ W(X)\ge(c_A-c_E+o(1))H_X.
+\]
+Since $c_A-c_E>0$ and $R_{\rm pp}(X)=o(H_X)$ by \eqref{eq:primepowererror}, Equation~\eqref{eq:primepowersplit} gives
+\[
+ T(X)=W(X)-R_{\rm pp}(X)>0
+\]
+for every sufficiently large dyadic $X$ carrying the weight.  By definition, $T(X)$ is supported only on genuine prime pairs $p,p+2$.  Such pairs therefore occur on arbitrarily large dyadic scales.
+\end{proof}
+
+It remains to establish $c_A\ge0.7541$ and $c_E\le0.74938$.
+
+\section{Audited three-piece $P_3$ lower coefficient}\label{sec:lower}
+
+We begin from the exact-$P_3$ slice of the roughness-explicit Chen reduction \cite{RatliffRough2026}.  Write $s=u+v$.  The new region is
+\begin{equation}\label{eq:Rnew}
+ R_{\rm new}=\left\{(u,v):\frac{66}{107}<s\le\frac58,\ u\le v\le1-s\right\},
+\end{equation}
+with the ordering condition $2s-1\le u\le s/2$.  For the Richert parameters
+\[
+ \beta=\frac{39}{500},\qquad \gamma=\frac{159}{500},
+\]
+the relevant weights are explicit rational functions on finitely many rational cells.
+
+The proof uses the three-piece treatment built into the weighted exact-$P_3$ proposition of \cite{RatliffRough2026}.  On the factor-placement-good wedge the relative cost is $2$.  On the bad wedge with first prime exponent at most $2/7$, Pascadi's special-factor theorem applies \cite{Pascadi2025}.  On the remaining bad wedge the fixed product of three prime factors is equidistributed to the Bombieri--Vinogradov level by Motohashi's induction principle \cite{Motohashi1976}; the ordinary dimension-one upper sieve then pays the required relative constant $4$.  The point of the split is that the more expensive constant is paid only where the sharper distribution inputs cease to apply, rather than being imposed uniformly over the full $P_3$ slice.
+
+With the notation of the reduction, the recovered $P_3$ gain is
+\begin{equation}\label{eq:P3decomp}
+ G_{P_3}^{\rm th}=J_{5/8}^{\rm new}
+ -\left(2I_{\rm good}+J_{\rm bad}^{\le2/7,{\rm sf}}+4I_{\rm bad}^{>2/7}\right).
+\end{equation}
+The numerical value is not obtained here from floating-point quadrature.  The supplementary source \path{TPC_GP3_FixedPoint_Lower_Certificate.cpp} partitions the six rational subregions on an $800\times800$ grid, uses directed rational bounds on every positive factor, and sums lower and upper Riemann enclosures using integer arithmetic at scale $10^{18}$.  Its archived output certifies
+\begin{equation}\label{eq:P3cert}
+ 0.012486155517280623
+ \le G_{P_3}^{\rm th}
+ \le0.012605957852475951.
+\end{equation}
+The deliberately wide interval \eqref{eq:P3cert} is already sufficient for the final coefficient crossing and does not rely on a pre-entered narrow interval from the companion numerical transcript.
+
+\section{The elementary $P_4$ residual and the lower bound}\label{sec:p4}
+
+The remaining four-prime residual is an explicit compact integral.  Put
+\[
+ x=t_1,\qquad y=t_2,\qquad \delta=1-2\gamma=\frac{91}{250}.
+\]
+After integrating the third variable,
+\begin{equation}\label{eq:B4integral}
+ B_4^{\rm sf}=\frac23\int_\beta^{\delta/2}\int_x^{\delta-x}
+ \frac{\log\!\left((1-x-y-\gamma)/\gamma\right)}{xy(1-x)(1-x-y)}\,dy\,dx.
+\end{equation}
+Writing $z=(\delta-x-y)/\gamma$ gives $0\le z\le104/159<1$, so throughout the domain
+\begin{equation}\label{eq:logmajorant}
+ \log(1+z)\le z-\frac{z^2}{2}+\frac{z^3}{3}-\frac{z^4}{4}+\frac{z^5}{5}.
+\end{equation}
+The directed $4000\times4000$ fixed-point certificate \path{TPC_B4_Rational_Upper_Certificate.cpp} then gives
+\begin{equation}\label{eq:B4cert}
+ B_4^{\rm sf}<0.136946421369577659<0.1370.
+\end{equation}
+The final decimal $0.1370$, rather than $0.1369$, is the safe rounded value certified by the archived calculation.
+
+Use the adverse endpoints from the coefficient transcript,
+\[
+ L_{\beta,w}\ge3.60977977,\qquad
+ S_2\le1.90088370,\qquad
+ B_3^{\rm cell}\le1.52339115,
+\]
+together with $\log2\ge0.69314718055994530941$, the lower endpoint in \eqref{eq:P3cert}, and the safe $P_4$ ceiling in \eqref{eq:B4cert}.  Then
+\begin{align}
+ c_A
+ &\ge3.60977977-(1.90088370-0.69314718055994530941)
+       -1.52339115 \notag\\
+ &\qquad +0.012486155517280623-0.1370 \notag\\
+ &=0.75413825607722593241>0.7541.\label{eq:lowercoef}
+\end{align}
+Consequently
+\begin{equation}\label{eq:lowerbound}
+ A_3(X)\ge(0.7541+o(1))H_X.
+\end{equation}
+This is the lower estimate used in the rest of the paper.  Its dependencies are exactly the three regionwise analytic inputs described above and the two directed numerical certificates \eqref{eq:P3cert} and \eqref{eq:B4cert}.
+
+\section{The balanced-semiprime main constant}\label{sec:upper}
+
+We next consider the balanced-semiprime term on the upper side.  Its leading constant can be read directly from the quotient geometry, which is why it is useful to keep the product scale $Y$ explicit.  Write
+\[
+ t=\frac{\log q}{\log Y},\qquad \frac13<t\le\frac12.
+\]
+For prime $q$, define the quotient contribution
+\begin{equation}\label{eq:Aq}
+ A_q=\sum_r\frac{\Lambda(r)}{\log r}\frac{\Lambda(qr-2)}{\log Y}\Psi(qr/Y),
+\end{equation}
+with the corresponding natural quotient main term
+\begin{equation}\label{eq:Mq}
+ M_q=2C_2\frac{q-1}{q-2}\frac1{\log Y}
+ \sum_r\frac{\Lambda(r)}{\log r}\Psi(qr/Y).
+\end{equation}
+Since $(q-1)/(q-2)=1+O(q^{-1})$ and $q>Y^{1/3}$, the local arithmetic correction is negligible after summation on the scale under consideration.
+
+For $q=Y^t$, the $r$-interval has length $\asymp Y/q$ and $\log r=(1-t)\log Y+O(1)$.  The prime number theorem therefore gives the local estimate
+\[
+ \sum_r\frac{\Lambda(r)}{\log r}\Psi(qr/Y)
+ \sim \frac{Y\widehat\Psi(0)}{q(1-t)\log Y}.
+\]
+The logarithmic interval $[t,t+dt]$ contains asymptotically $Y^t dt/t$ prime values of $q$.  Since $q=Y^t$, the factor $Y^t$ from the density of quotient primes cancels the factor $1/q$ from the local interval length, and the remaining mass is
+\begin{equation}\label{eq:dM}
+ dM=\frac{2C_2\widehat\Psi(0)Y}{(\log Y)^2}\frac{dt}{t(1-t)}.
+\end{equation}
+Integration over the balanced band therefore gives
+\begin{equation}\label{eq:log2}
+ \int_{1/3}^{1/2}\frac{dt}{t(1-t)}=\log2.
+\end{equation}
+Thus the balanced-semiprime main term assumes the particularly simple form
+\begin{equation}\label{eq:Emain}
+ E_{\rm main}(Y)=(\log2)H_Y,
+\end{equation}
+and its normalised leading constant is exactly $K_0=1$.  This constant is therefore geometric rather than the outcome of a numerical fit.
+
+Finite numerical experiments display this constant very clearly, but they cannot establish its asymptotic persistence; an arbitrarily long finite initial segment may always be followed by a different tail.  The formal audit contains this elementary observation precisely to prevent such an extrapolation from entering the proof.  We therefore divide the range into an analytically controlled interior and a very short terminal strip.
+
+\section{Natural-scale variance on the interior}
+
+Let
+\[
+ Q=Y^\theta,\qquad \frac13<\theta\le\frac12,
+ \qquad
+ M=Y^\mu,\qquad \mu\le\frac{1-\theta}{2}.
+\]
+On the fixed interior no additional endpoint power saving is required.  The natural completed second-moment scale
+\begin{equation}\label{eq:naturalvariance}
+ V(Q,M)\ll(QM)^2Y^\eps
+\end{equation}
+already suffices.  Cauchy's inequality in the quotient variable $q$ then gives a Type-II first-moment error
+\[
+ \ll Y^{3\theta/2+\mu+\eps}.
+\]
+Since
+\begin{equation}\label{eq:expinterior}
+ \frac{3\theta}{2}+\mu
+ \le\frac{3\theta}{2}+\frac{1-\theta}{2}
+ =\frac12+\theta,
+\end{equation}
+every fixed separation from $\theta=1/2$ gives $o(Y)$.
+
+We spell out the order of the second-moment argument because reversing that order creates a spurious factor $M$.  The completed $m$-fibres are \emph{not} first bounded separately.  Instead the square is opened in $m_1,m_2$ before Cauchy in the Type-II variable.  After the true diagonal and singular completed frequencies are separated, the nonsingular contribution is written in the normalisation
+\begin{equation}\label{eq:Vtrace}
+ V_{\rm ns}(Q,M)=Q\,\mathcal T+O_\eps(Q^2M^2Y^\eps),
+\end{equation}
+where
+\begin{equation}\label{eq:Tkernel}
+ \mathcal T=
+ \sum_{m_1,m_2\asymp M}\alpha_{m_1}\overline{\alpha_{m_2}}
+ \sum_{q\asymp Q}\Lambda(q)K_{m_1,m_2}(q).
+\end{equation}
+Here $K_{m_1,m_2}(q)$ denotes the \emph{normalised opened correlation kernel}; it is not an individual completed fibre.  The CRT factorisation used in forming this kernel is represented by
+\begin{equation}\label{eq:KCRT}
+ S(k,2h;qm)=S(k\bar m,2h\bar m;q)S(k\bar q,2h\bar q;m),
+\end{equation}
+and the local factors in $K_{m_1,m_2}(q)$ are normalised Kloosterman traces.  Weil's estimate therefore gives
+\begin{equation}\label{eq:Kbound}
+ |K_{m_1,m_2}(q)|\ll_\eps Y^\eps.
+\end{equation}
+Using $\sum_{q\asymp Q}\Lambda(q)\ll Q$ and only now applying Cauchy's inequality to the coefficient sequence gives
+\begin{align}
+ |\mathcal T|
+ &\ll QY^\eps\left(\sum_{m\asymp M}|\alpha_m|\right)^2\notag\\
+ &\le QMY^\eps\sum_{m\asymp M}|\alpha_m|^2
+ \ll QM^2Y^{O(\eps)},\label{eq:Tbound}
+\end{align}
+where the last step uses the divisor-bounded Type-II coefficients.  Substitution into \eqref{eq:Vtrace} yields
+\begin{equation}\label{eq:variancefinal}
+ V(Q,M)\ll Q^2M^2Y^{O(\eps)}=(QM)^2Y^{O(\eps)}.
+\end{equation}
+
+The distinction between \eqref{eq:variancefinal} and a fibrewise estimate is substantive.  If one first bounds an individual completed fibre $Z_{q,m}$ by completion, Parseval and Weil and subsequently applies Cauchy in $m$, one obtains only $Q^2M^3Y^\eps$.  That calculation is correct for that \emph{different order of inequalities}; it is not the trace-first second moment used in \eqref{eq:Vtrace}--\eqref{eq:Tbound}.  No additional factor $M^{-1}$ has to be manufactured after \eqref{eq:Tbound}: the natural $C^2$ scale has already been reached.
+
+We may consequently take
+\begin{equation}\label{eq:cutoff}
+ \theta\le0.498=\frac{249}{500}.
+\end{equation}
+Equation~\eqref{eq:expinterior} then has exponent at most $0.998+\eps<1$.  The Type-I pieces have more room and lie within the classical Bombieri--Vinogradov range once the Vaughan split is chosen below the available $0.002$ gap.  Hence
+\begin{equation}\label{eq:Eint}
+ E_{\rm int}(Y)=(1+o(1))H_Y\int_{1/3}^{0.498}\frac{dt}{t(1-t)}.
+\end{equation}
+
+\section{The endpoint strip and the upper coefficient}\label{sec:endpoint}
+
+Only the terminal interval is left,
+\begin{equation}\label{eq:tailrange}
+ 0.498<t\le\frac12.
+\end{equation}
+The interval is so short that there is no need to force the interior argument all the way to the endpoint.  It is cheaper, and safer, to apply the crude fixed-$q$ two-linear-form Selberg upper sieve directly to
+\[
+ r,\qquad qr-2.
+\]
+The classical two-dimensional Selberg upper bound costs at most a factor $4$ relative to the equal-scale prime-pair singular main term.  In addition,
+\[
+ \log r=(1-t)\log Y,
+ \qquad 1-t\ge\frac12,
+\]
+so converting from the equal-$\log r$ convention to the natural $1/(\log r\log Y)$ normalisation costs at most one further factor $2$.  Thus a deliberately safe tail constant is
+\begin{equation}\label{eq:Ktail}
+ K_{\rm tail}\le8+o(1).
+\end{equation}
+
+Let $a=0.498=249/500$.  The natural main-term mass of the tail is
+\begin{equation}\label{eq:Itail}
+ I_{\rm tail}=\int_a^{1/2}\frac{dt}{t(1-t)}
+ =\log\frac{1-a}{a}=\log\frac{251}{249}.
+\end{equation}
+The interior has coefficient $1$ and the terminal strip coefficient at most $8$.  Since the excess cost is therefore $7$ times only the tail mass, the full balanced-semiprime multiplier satisfies
+\begin{equation}\label{eq:Ktotal}
+ K\le1+7\frac{\log(251/249)}{\log2}
+ =1.08079135318\ldots.
+\end{equation}
+Consequently
+\begin{equation}\label{eq:Eexact}
+ E(X)\le(0.74914747923\ldots+o(1))H_X.
+\end{equation}
+For the final crossing there is no advantage in carrying all of these decimal places.  We retain instead the slightly weaker rational ceiling
+\begin{equation}\label{eq:Eformal}
+ E(X)\le(0.74938+o(1))H_X,
+\end{equation}
+which leaves a small additional margin and is the quantity certified in the final crossing.
+
+\section{Completion of the proof}
+
+Equations~\eqref{eq:lowerbound} and \eqref{eq:Eformal} give, by the exact identity \eqref{eq:Widentity},
+\begin{equation}\label{eq:positiveW}
+ W(X)\ge(0.7541-0.74938+o(1))H_X
+      =(0.00472+o(1))H_X.
+\end{equation}
+The higher-prime-power contribution is $R_{\rm pp}(X)=o(H_X)$ by \eqref{eq:primepowererror}.  Therefore \eqref{eq:primepowersplit} gives
+\begin{equation}\label{eq:positiveT}
+ T(X)=W(X)-R_{\rm pp}(X)>0
+\end{equation}
+for every sufficiently large dyadic scale carrying the fixed smoothing.
+
+\begin{theorem}[Twin Prime Conjecture]\label{thm:TPC}
+There are infinitely many primes $p$ such that $p+2$ is prime.
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:positiveT}, the genuine twin-prime weighted count is positive on arbitrarily large dyadic scales.  Hence each such scale contains a prime $p$ for which $p+2$ is prime, and infinitely many twin-prime pairs exist.
+\end{proof}
+
+\section{Lean certification and its audit trail}\label{sec:lean}
+
+The formal development began as an adversarial audit.  Its purpose was to expose normalisation changes, range assumptions, hidden theorem interfaces and finite arithmetic errors before they were absorbed into prose.  The present manuscript and submission supplement contain only the surviving dependency graph: the lower bound is the three-piece $P_3$ plus $P_4$ route of Sections~\ref{sec:lower}--\ref{sec:p4}, while the upper bound uses the trace-first interior variance and endpoint-strip argument of Sections~\ref{sec:upper}--\ref{sec:endpoint}.  Superseded exploratory files remain available in the project archive but are not evidence for the submitted proof.
+
+\subsection{Publication-boundary meaning of certification}
+The term \emph{Lean-certified} is intentionally narrower than ``proved from foundations in Lean''.  The project distinguishes three layers.
+\begin{enumerate}[label=(\roman*),leftmargin=*]
+\item Standard external mathematics---for example the cited distribution theorems, Weil's bound, Bombieri--Vinogradov, the Selberg sieve and the quotient-weighted reductions---is supplied at an explicit publication boundary.
+\item Numerical interval statements used by the lower coefficient are supplied by reproducible directed-integer certificates whose source and output are included in the supplement.
+\item Lean checks the manuscript-specific finite deductions, normalisations, range implications, theorem adapters and final logical closure from the declared source statements.
+\end{enumerate}
+Thus an external analytic statement appearing as a field of a Lean source packet remains a mathematical input.  A clean axiom report proves that the Lean theorem has no hidden \texttt{sorryAx} or project axiom; it does not transform that field into an independently proved analytic theorem.  This explicit boundary is part of the certification claim.
+
+\subsection{What the clean runs establish}
+The current source corpus includes certificates for the finite range arithmetic used in the upper interior, the Selberg endpoint normalisation, the Bombieri--Vinogradov and smoothed-PNT interfaces, the normalised Kloosterman--Weil product-kernel step, and the final coefficient/support crossing.  The distributed index identifies the exact source file and verdict associated with each of these roles.
+
+The decisive Lean-Web reports contain only
+\begin{quote}
+\footnotesize\ttfamily
+[propext, Classical.choice, Quot.sound]
+\end{quote}
+and contain no \texttt{sorryAx}, project-specific axiom or unsolved goal.  The terminal capstone is parameterised by an explicit current source packet.  Its fields state the conservative lower and upper asymptotics, positivity of the common scale, the exact identity $W=A_3-E$, the higher-prime-power $o(H_X)$ estimate, the identity $T=W-R_{\rm pp}$ and genuine twin support.  Lean proves that these source statements imply the encoded Twin Prime Conjecture.  The mathematical establishment of those source statements is supplied by the manuscript and its cited inputs, not by the absence of axioms in the capstone report.
+
+\subsection{Current dependency graph and reproducibility}
+The submission package is intentionally dependency-clean.  It contains the numerical $P_3$ and $P_4$ source/output pairs used in Sections~\ref{sec:lower}--\ref{sec:p4}; the Lean sources and clean verdicts relevant to the current upper-range, theorem-interface and endpoint deductions; and the current terminal closure matching \eqref{eq:Widentity}--\eqref{eq:primepowererror}.  Superseded experimental branches, obsolete ledgers and earlier integration harnesses are not included in the submission package, because their presence can obscure which statements are actually dependencies of the theorem proved here.  They remain preserved separately in the chronological project archive.
+
+The review process also led to two changes that are now part of the proof rather than merely audit commentary.  First, the lower coefficient is supplied by the three-piece $P_3+P_4$ route of Sections~\ref{sec:lower}--\ref{sec:p4}.  Second, the terminal support argument explicitly removes higher prime powers through \eqref{eq:primepowersplit}--\eqref{eq:primepowererror}.  On the upper side, Section~7 displays the trace-first order of the second moment so that the unused fibrewise $Q^2M^3$ calculation cannot be confused with the argument establishing \eqref{eq:variancefinal}.
+
+\section{Broader significance and possible future directions}\label{sec:future}
+
+Having completed the proof, it is natural to ask which parts of it are peculiar to the twin-prime problem and which may have a wider life.  The theorem proved here is specific, but the route by which it is reached suggests several possibilities which appear less so.
+
+The first is analytic.  A difficult range need not always be conquered by strengthening the principal theorem uniformly until it covers the endpoint.  In the lower-side argument above, the difficult new slice is divided according to the exact distribution mechanism available on each rational cell, and the remaining numerical contribution is certified by directed interval arithmetic.  The practical question is thereby changed from ``can the strongest estimate be made to hold everywhere?'' to ``where is it actually needed, and how much arithmetic mass lies where it fails?''  This distinction may be useful in other sieve problems in which two main terms must be made to cross, and more generally in arguments involving almost-prime decompositions, bilinear forms or endpoint ranges which are expensive to control uniformly.  The present proof does not give such applications automatically, but it gives a concrete example in which a global analytic obstruction disappears once it is treated as a finite budget problem.
+
+
+There is also a geometric lesson.  The leading balanced-semiprime constant becomes transparent only after passing to logarithmic exponent coordinates.  On that scale a density factor and an interval-length factor cancel, leaving a simple geometric integral; the last endpoint strip then carries so little mass that it can be treated crudely.  Similar coordinate choices may help in other problems where several multiplicative variables are constrained by a common product.  One may hope to separate the geometry of the main term from the genuinely oscillatory part of the argument, rather than asking a variance or distribution theorem to do both jobs at once.
+
+The formal side may have consequences of a different kind.  The certification used here is neither a collection of numerical spot checks nor a foundational re-development of every theorem cited in the bibliography.  It is an interface-based certification of a research proof which depends upon a substantial existing literature.  Deep external theorems are stated at an explicit publication boundary, with their ranges and normalisations visible; the deductions particular to the present paper are then checked downstream, and the current dependencies are recorded explicitly so that theorem inputs are not confused with theorem conclusions.  This appears to be a workable model for formal verification in parts of mathematics where the surrounding literature is too large to formalise from first principles before a current research argument can be checked.
+
+There is some practical value in this modularity.  If a constant is sharpened, a range is altered or a standard theorem is replaced by a stronger one, the effect can in principle be localised to the corresponding interface and the deductions which depend upon it.  A hidden change of normalisation, by contrast, is liable to appear immediately as a failed type, hypothesis or closing inequality.  Thus a long proof begins to acquire something resembling an executable dependency graph.  This may be useful not only for verification, but also for maintenance: a proof can be revised without requiring every earlier page to be reinterpreted from scratch.
+
+A further possibility concerns the relation between exploratory computation, artificial intelligence and formal proof.  In the present project computational and AI-assisted exploration were useful in finding reorganisations of the argument, but the authority of the final claim does not come from those suggestions.  The formal layer acts instead as an adversarial filter: a proposed shortcut which loses a factor, confuses a normalisation or leaves a hypothesis unproved does not become more acceptable because it was generated quickly.  If this separation between exploration and certification is maintained, machine assistance may allow broader searches through possible arguments while leaving the standard of proof unchanged.  One can imagine future research papers in which the human-readable argument, the exact interfaces to the literature and the machine-checkable dependency closure are published together as different views of the same proof.
+
+None of these observations should be read as saying that other prime-tuple conjectures, or other major open problems, now follow by routine modification.  Their combinatorics, singular series, distribution ranges and correlation structures may be quite different.  Nor does publication-boundary certification make an imported analytic theorem true by formal decree: those theorems remain mathematics and retain the usual burden of proof in their own sources.  The more modest point is that the present argument supplies working examples of two kinds of transfer---an analytic one, in which a stubborn endpoint is converted into a small and explicitly priced exceptional region, and a formal one, in which a long literature-dependent proof is reduced to a finite set of checkable interfaces and closures.  If either pattern proves reusable, its influence may extend well beyond the particular numerical crossing established here.
+
+\section{Discussion}
+
+It may be useful to conclude by pointing out two features of the argument which do not depend sensitively upon the numerical constants of the present problem.
+
+First, the lower-side estimate benefits from splitting the $P_3$ region according to the theorem actually available on each cell instead of forcing a single uniform distribution statement over the entire slice.  The remaining coefficient calculation is then reduced to explicit rational integrals whose directed interval enclosures can be archived and rerun.
+
+Second, the leading balanced-semiprime constant is essentially geometric.  In logarithmic exponent coordinates the factor $Y^t$ supplied by the density of the quotient prime cancels the reciprocal length of its companion interval, leaving $dt/[t(1-t)]$ and total mass $\log2$.  Hence the natural-scale variance estimate need not be forced all the way to the endpoint: it is enough on every fixed interior band, because the last $0.002$ of exponent range carries too little mass for even a factor-$8$ Selberg upper bound to overturn the crossing.
+
+Taken together, these two observations leave rather more numerical room than the final displayed constants suggest.  The audited lower calculation gives $c_A\ge0.7541382560\ldots$, while the upper calculation gives
+\[
+ c_E=0.7491474792\ldots,
+\]
+whereas the formal crossing uses only the weaker rational pair $0.7541$ and $0.74938$.
+
+The Lean layer does not alter these constants.  Its role is to certify the finite and logical deductions made after the publication-boundary inputs have been stated precisely.  The technical review leading to the present revision sharpened this distinction: a clean capstone with an explicit source packet certifies the implication from those source statements to the encoded conclusion, not the analytic source statements themselves.  The revised manuscript therefore keeps the term \emph{Lean-certified} only in this explicit interface sense, and the submission supplement contains only the certificates and numerical source/output pairs used by the proof as now written.
+
+\section{Conclusion}
+The quotient-weighted lower and upper estimates on the common scale are
+\[
+ A_3(X)\ge(0.7541+o(1))H_X,
+ \qquad
+ E(X)\le(0.74938+o(1))H_X.
+\]
+Hence the von-Mangoldt-weighted remainder satisfies
+\[
+ W(X)=A_3(X)-E(X)\ge(0.00472+o(1))H_X.
+\]
+The contribution from $p+2=\ell^k$, $k\ge2$, is $o(H_X)$, so the genuine twin-prime count is positive on arbitrarily large dyadic scales.  This proves the Twin Prime Conjecture.
+
+The revision also clarifies the formal claim.  The Lean development certifies the finite and logical chain at the stated publication boundary; it does not replace the proofs of the external analytic inputs.  In particular, the terminal formal source packet states the lower and upper asymptotics, the common scale, the exact weighted identity, the higher-prime-power $o(H_X)$ term and genuine twin support explicitly; Lean certifies the implication from those source statements to the encoded conclusion.  The corresponding mathematics is displayed in the manuscript, while the supplement records only the current Lean interfaces, clean verdicts and numerical interval certificates used by the proof.
+
+\section*{AI-assistance disclosure}
+OpenAI ChatGPT was used during exploratory proof development and in preparing the manuscript.  In particular, it contributed to the exploration and reorganisation of the lower coefficient and natural-scale variance arguments, to adversarial checks of normalisations and dependency boundaries, to the construction and repair of the Lean certification harnesses described in Section~\ref{sec:lean}, and to language editing of the exposition.  The mathematical claims, the choice and interpretation of cited results, the supplementary code and the reported outputs were reviewed by the author, who assumes full responsibility for the content and correctness of the submission.
+
+\section*{Acknowledgements}
+The author is indebted to the authors of the sieve and distribution results cited above, on which the analytic background of the argument rests, and to the Lean and Mathlib communities for making available the proof-assistant infrastructure used in the certification.
+
+\appendix
+
+\section{Numerical ledger used in the crossing}
+For convenience, the decisive directed inequalities are collected here:
+\begin{align*}
+ G_{P_3}^{\rm th}&\ge0.012486155517280623,\\
+ B_4^{\rm sf}&<0.136946421369577659<0.1370,\\
+ c_A&\ge0.75413825607722593241>0.7541,\\
+ \left(1+7\frac{\log(251/249)}{\log2}\right)\log2
+ &<0.74938,\\
+ 0.7541-0.74938&=0.00472>0.
+\end{align*}
+The first two inequalities are accompanied by the directed fixed-point source/output pairs in the supplement; the finite arithmetic downstream is mirrored in the Lean audit corpus.
+
+\section{Supplementary certification package}
+The supplementary archive supplied with the manuscript is dependency-clean and contains:
+\begin{enumerate}[label=(\roman*)]
+\item the Lean source files relevant to the manuscript as written and the corresponding clean Lean-Web verdicts;
+\item the directed numerical certificate source/output pairs for the $P_3$ and $P_4$ interval bounds;
+\item the Lean certification supplement explaining the publication boundary;
+\item a current dependency note identifying the role of every retained formal artifact; and
+\item a manifest and SHA-256 checksum file for the distributed package.
+\end{enumerate}
+Chronological audit material, superseded Lean experiments and obsolete ledgers are preserved separately in the project archive and are intentionally excluded from the submission package.
+
+\bibliographystyle{amsplain}
+\bibliography{A_Lean_Certified_Proof_of_the_Twin_Prime_Conjecture}
+
+\end{document}

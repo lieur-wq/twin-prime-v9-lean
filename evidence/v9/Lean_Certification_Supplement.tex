@@ -1,0 +1,89 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{url}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\emergencystretch}{2em}
+\newcommand{\code}[1]{\texttt{#1}}
+\title{Lean Certification Supplement\\\large for \emph{A Lean-certified proof of the Twin Prime Conjecture}}
+\author{Richard Lieu\\Department of Physics and Astronomy\\University of Alabama in Huntsville}
+\date{10 October 2026 -- v8 complete current package}
+\begin{document}
+\maketitle
+
+\section{Purpose and certification boundary}
+This supplement accompanies the final-audit revision of \emph{A Lean-certified proof of the Twin Prime Conjecture}.  The term \emph{Lean-certified} is used at an explicit publication boundary, not to mean that all cited analytic number theory has been re-proved from foundations in Lean.
+
+The project distinguishes three layers:
+\begin{enumerate}[label=(\roman*),leftmargin=*]
+\item external analytic theorems and quotient reductions, which remain mathematical inputs;
+\item reproducible directed numerical certificates used for the lower coefficient; and
+\item Lean-checked finite deductions, range arithmetic, theorem adapters and logical closure from the declared source statements.
+\end{enumerate}
+A source statement supplied through a Lean structure remains an input.  A clean axiom report certifies the formal implication from that input; it does not promote the input itself into a Lean proof of the underlying analytic theorem.
+
+\section{The dependency-clean proof architecture}
+The submitted mathematical argument uses one common weighted scale and an integrated coefficient crossing.  It does not attempt to make one strongest estimate hold uniformly on every critical cell.
+
+On the lower side, the exact-$P_3$ region is divided according to the distribution mechanism actually available on each cell, and the more expensive sieve constant is paid only on the remaining small region.  The directed $P_3$ and $P_4$ numerical certificates then give the conservative lower coefficient
+\[
+ c_A>0.7541.
+\]
+On the upper side, the natural balanced-semiprime coefficient is required only on the fixed interior $t\le0.498$ and the terminal strip is paid at relative constant $8$.  The strip has mass fraction
+\[
+ \rho=\frac{\log(251/249)}{\log2}=0.0115416\ldots,
+\]
+so the integrated multiplier is
+\[
+ 1+7\rho=1.0807913\ldots<\frac{0.7541}{\log2}=1.0879\ldots.
+\]
+The final manuscript therefore needs neither a uniform endpoint theorem nor any retired lower-side analytic branch.
+
+\section{Numerical certificates}
+The current proof package contains exactly the two directed source/output pairs used by the lower coefficient:
+\begin{enumerate}[label=(\roman*)]
+\item \code{TPC\_GP3\_FixedPoint\_Lower\_Certificate.cpp}, run at its default $N=800$, whose fresh audit rerun reproduced the archived output exactly and certifies
+\[
+0.012486155517280623\le G_{P_3}^{\rm th}\le0.012605957852475951;
+\]
+\item \code{TPC\_B4\_Rational\_Upper\_Certificate.cpp}, run explicitly with command-line argument \code{4000}, whose fresh audit rerun reproduced the archived output exactly and certifies
+\[
+B_4^{\rm sf}<0.136946421369577659<0.1370.
+\]
+\end{enumerate}
+The explicit \code{4000} argument is important because the source program's default grid is $N=2000$, which is not the archived certificate used by the manuscript.
+
+\section{Retained Lean evidence}
+The submission package retains only sources relevant to the manuscript as written.  Complete raw clean Lean-Web verdict PDFs are included for
+\begin{itemize}[leftmargin=*]
+\item \code{TP\_Audit\_10j\_Item13\_InteriorBoundary\_NoQ132\_v2.lean};
+\item \code{TP\_Audit\_11\_Item14\_SelbergTrustBoundary.lean};
+\item \code{TP\_Audit\_15\_Item11\_ClassicalBVTrustBoundary.lean};
+\item \code{TP\_Audit\_16\_Item12\_SmoothedPNTTrustBoundary.lean}.
+\end{itemize}
+Each of those verdicts contains no error, unsolved goal or \code{sorryAx}.  The Run-16 source supplied again on 10 October is byte-for-byte identical to the source already retained in the package.  Its new clean Lean-Web verdict displays the expected historical item-12 declarations, and the three decisive axiom reports contain only \code{propext}, \code{Classical.choice} and \code{Quot.sound}.  The earlier truncated first Run-16 upload remains under \code{supplement/provenance/} as superseded historical evidence; the clean raw verdict is now under \code{supplement/verdicts/}.
+
+The current replacement file
+\begin{quote}
+\code{TP\_Audit\_Current\_Final\_Certification\_2026-10-09.lean}
+\end{quote}
+has now been run by the user.  Its supplied Lean-Web verdict matches the source's final \code{\#check} and \code{\#print axioms} lines.  It combines two current roles in one self-contained Mathlib file: the normalized product-kernel consequence of the published local Kloosterman--Weil bounds, and the terminal logical closure from the manuscript's conservative lower/upper asymptotics together with
+\[
+ W=A_3-E,\qquad R_{\rm pp}=o(H_X),\qquad T=W-R_{\rm pp}.
+\]
+The source packet also carries genuine twin support explicitly.  The decisive axiom reports contain only \code{propext}, \code{Classical.choice} and \code{Quot.sound}; there is no \code{sorryAx}.
+
+\section{Post-verdict reconciliation}
+The final artifact audit had identified two stale historical roles: a PDF labelled as a clean Run-14 verdict that actually contains Lean error recovery and \code{sorryAx}, and the old Run-18 closure whose coefficient/support packet no longer matches the revised manuscript.  The current replacement source above was prepared to cover those two current roles.  The user has now supplied its clean Lean-Web verdict, which is included in \code{supplement/verdicts/}.
+
+Consequently no further Lean-Web run of the current replacement source is required.  The Run-16 raw-evidence bundle is also complete: the clean 10 October verdict is included, while the earlier truncated first upload is retained only as provenance.  There is therefore no remaining raw-verdict caveat in the current v8 package.
+
+\section{Archive policy}
+Superseded exploratory branches, failed-and-repaired Lean sources, the old manually defined zero ledger, the earlier all-integration harness and chronological source records are intentionally excluded from the submission package.  They remain preserved separately in the project archive in \code{/TwinPrime/}.  This separation is substantive: provenance should remain available, but retired material should not be presented as evidence for the theorem now submitted.
+
+\end{document}

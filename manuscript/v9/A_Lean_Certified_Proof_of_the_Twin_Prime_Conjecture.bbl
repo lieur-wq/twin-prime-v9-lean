@@ -1,0 +1,63 @@
+\begin{thebibliography}{99}
+
+\bibitem{Brun1919}
+Brun, Viggo, \emph{La s\'erie $1/5+1/7+1/11+1/13+\cdots$ o\`u les d\'enominateurs sont nombres premiers jumeaux est convergente ou finie}, Bulletin des Sciences Math\'ematiques 43 (1919), 100--104, 124--128.
+
+\bibitem{HardyLittlewood1923}
+Hardy, G. H.; Littlewood, J. E., \emph{Some problems of ``Partitio Numerorum''; III: On the expression of a number as a sum of primes}, Acta Mathematica 44 (1923), 1--70. DOI \url{https://doi.org/10.1007/BF02403921}.
+
+\bibitem{BombieriDavenport1966}
+Bombieri, Enrico; Davenport, Harold, \emph{Small differences between prime numbers}, Proceedings of the Royal Society of London. Series A 293 (1966), 1--18. DOI \url{https://doi.org/10.1098/rspa.1966.0155}.
+
+\bibitem{Chen1973}
+Chen, Jing-run, \emph{On the representation of a larger even integer as the sum of a prime and the product of at most two primes}, Scientia Sinica 16 (1973), 157--176. DOI \url{https://doi.org/10.1360/YA1973-16-2-157}.
+
+\bibitem{HalberstamRichert1974}
+Halberstam, Heini; Richert, Hans-Egon, \emph{Sieve Methods}, Academic Press, London, 1974.
+
+\bibitem{BFI1986}
+Bombieri, Enrico; Friedlander, John B.; Iwaniec, Henryk, \emph{Primes in arithmetic progressions to large moduli}, Acta Mathematica 156 (1986), 203--251. DOI \url{https://doi.org/10.1007/BF02399204}.
+
+\bibitem{BFI1987}
+Bombieri, Enrico; Friedlander, John B.; Iwaniec, Henryk, \emph{Primes in arithmetic progressions to large moduli. II}, Mathematische Annalen 277(3) (1987), 361--393. DOI \url{https://doi.org/10.1007/BF01458321}.
+
+\bibitem{GPY2009}
+Goldston, Daniel A.; Pintz, J\'anos; Y\i ld\i r\i m, Cem Y., \emph{Primes in tuples I}, Annals of Mathematics 170(2) (2009), 819--862. DOI \url{https://doi.org/10.4007/annals.2009.170.819}.
+
+\bibitem{Zhang2014}
+Zhang, Yitang, \emph{Bounded gaps between primes}, Annals of Mathematics 179(3) (2014), 1121--1174. DOI \url{https://doi.org/10.4007/annals.2014.179.3.7}.
+
+\bibitem{Maynard2015}
+Maynard, James, \emph{Small gaps between primes}, Annals of Mathematics 181(1) (2015), 383--413. DOI \url{https://doi.org/10.4007/annals.2015.181.1.7}.
+
+\bibitem{Polymath2014}
+{D. H. J. Polymath}, \emph{Variants of the Selberg sieve, and bounded intervals containing many primes}, Research in the Mathematical Sciences 1 (2014), 12. DOI \url{https://doi.org/10.1186/s40687-014-0012-7}.
+
+\bibitem{Pascadi2025}
+Pascadi, Alexandru, \emph{On the exponents of distribution of primes and smooth numbers}, 2025, arXiv:2505.00653 [math.NT].
+
+\bibitem{Yang2026}
+Yang, Zhiyuan, \emph{Convolution-type Bombieri--Vinogradov theorem with well-factorable weights, and its applications}, 2026, arXiv:2608.13299 [math.NT], DOI \url{https://doi.org/10.48550/arXiv.2608.13299}.
+
+\bibitem{RatliffReduction2026}
+Ratliff, Marshall, \emph{Quotient-Weighted Type II Reductions and Product-Modulus Targets}, 2026, Zenodo, DOI \url{https://doi.org/10.5281/zenodo.20287705}.
+
+\bibitem{RatliffRough2026}
+Ratliff, Marshall, \emph{A Roughness-Explicit Chen-type Theorem for Shifted Primes}, 2026, Zenodo, DOI \url{https://doi.org/10.5281/zenodo.20377159}.
+
+\bibitem{Motohashi1976}
+Motohashi, Yoichi, \emph{An Induction Principle for the Generalization of Bombieri's Prime Number Theorem}, Proceedings of the Japan Academy 52(6) (1976), 273--275. DOI \url{https://doi.org/10.3792/pja/1195518296}.
+
+\bibitem{deMoura2015}
+de Moura, Leonardo; Kong, Soonho; Avigad, Jeremy; van Doorn, Floris; von Raumer, Jakob, \emph{The Lean Theorem Prover (System Description)}, in Automated Deduction -- CADE-25, Lecture Notes in Computer Science 9195, Springer (2015), 378--388. DOI \url{https://doi.org/10.1007/978-3-319-21401-6\_26}.
+
+\bibitem{mathlib2020}
+{The mathlib Community}, \emph{The Lean Mathematical Library}, in Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs, CPP 2020, ACM (2020), 367--381. DOI \url{https://doi.org/10.1145/3372885.3373824}.
+
+\bibitem{Weil1948}
+Weil, Andr\'e, \emph{On Some Exponential Sums}, Proceedings of the National Academy of Sciences of the United States of America 34(5) (1948), 204--207. DOI \url{https://doi.org/10.1073/pnas.34.5.204}.
+
+\bibitem{IwaniecKowalski2004}
+Iwaniec, Henryk; Kowalski, Emmanuel, \emph{Analytic Number Theory}, American Mathematical Society Colloquium Publications 53, American Mathematical Society, Providence, RI, 2004.
+
+\end{thebibliography}

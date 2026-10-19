@@ -1,0 +1,59 @@
+MathlibDemo.lean:1:0
+No info found.
+All Messages (14)
+MathlibDemo.lean:210:0
+TwinPrimeCurrentCertification.Turn397KloostermanData : Type
+
+MathlibDemo.lean:211:0
+TwinPrimeCurrentCertification.PublishedPrimeKloostermanWeil (D : Turn397KloostermanData) : Prop
+
+MathlibDemo.lean:212:0
+TwinPrimeCurrentCertification.AuditedTurn397KernelBound (D : Turn397KloostermanData) : Prop
+
+MathlibDemo.lean:213:0
+TwinPrimeCurrentCertification.two_normalized_weil_bounds_give_kernel_four (D : Turn397KloostermanData)
+(h1 : ‖D.kl1‖ ≤ 2) (h2 : ‖D.kl2‖ ≤ 2) : AuditedTurn397KernelBound D
+
+MathlibDemo.lean:214:0
+TwinPrimeCurrentCertification.published_weil_to_turn397_kernel_bound (D : Turn397KloostermanData)
+(hWeil : PublishedPrimeKloostermanWeil D) : AuditedTurn397KernelBound D
+
+MathlibDemo.lean:215:0
+TwinPrimeCurrentCertification.FinalAnalyticSourceCurrent (H A3 E W Rpp T : ℕ → ℝ) : Type
+
+MathlibDemo.lean:216:0
+TwinPrimeCurrentCertification.current_source_eventually_positive {H A3 E W Rpp T : ℕ → ℝ}
+(S : FinalAnalyticSourceCurrent H A3 E W Rpp T) : ∃ X0, ∀ (X : ℕ), X0 ≤ X → 0 < T X
+
+MathlibDemo.lean:217:0
+TwinPrimeCurrentCertification.current_source_implies_tpc {H A3 E W Rpp T : ℕ → ℝ}
+(S : FinalAnalyticSourceCurrent H A3 E W Rpp T) : TwinPrimeConjecture
+
+MathlibDemo.lean:219:0
+'TwinPrimeCurrentCertification.two_normalized_weil_bounds_give_kernel_four' depends on axioms: [propext,
+Classical.choice,
+Quot.sound]
+
+MathlibDemo.lean:220:0
+'TwinPrimeCurrentCertification.published_weil_to_turn397_kernel_bound' depends on axioms: [propext,
+Classical.choice,
+Quot.sound]
+
+MathlibDemo.lean:221:0
+'TwinPrimeCurrentCertification.coeffGap_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+MathlibDemo.lean:222:0
+
+'TwinPrimeCurrentCertification.coefficient_margin_after_three_errors' depends on axioms: [propext,
+Classical.choice,
+Quot.sound]
+
+MathlibDemo.lean:223:0
+'TwinPrimeCurrentCertification.current_source_eventually_positive' depends on axioms: [propext,
+Classical.choice,
+Quot.sound]
+
+MathlibDemo.lean:224:0
+'TwinPrimeCurrentCertification.current_source_implies_tpc' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+
