@@ -1,3 +1,7 @@
+import TPCV9.V9.FinalCertification
+import TPCV9.PostV9.WeilCRTConditions
+import TPCV9.PostV9.BVRangeConditions
+
 /-!
 # Statement and axiom audit for the exact v9 source
 
@@ -5,9 +9,6 @@ The v9 source file is imported unaltered. These checks refer to the
 actual Mathlib predicate Nat.Prime and the actual source theorem.
 They do not silently assert that a source packet has been constructed.
 -/
-import TPCV9.V9.FinalCertification
-import TPCV9.PostV9.WeilCRTConditions
-import TPCV9.PostV9.BVRangeConditions
 
 set_option autoImplicit false
 
