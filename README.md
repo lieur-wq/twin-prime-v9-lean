@@ -1,5 +1,7 @@
 # Twin Prime Conjecture v9 — reproducible Lean source repository
 
+[![Lean 4/Mathlib reproducibility check](https://github.com/lieur-wq/twin-prime-v9-lean/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/lieur-wq/twin-prime-v9-lean/actions/workflows/lean.yml)
+
 Richard Lieu  
 Department of Physics and Astronomy, University of Alabama in Huntsville
 
